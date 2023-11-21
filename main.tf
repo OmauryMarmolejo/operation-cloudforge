@@ -32,7 +32,7 @@ resource "aws_ecs_cluster_capacity_providers" "example" {
 resource "aws_ecs_task_definition" "ecs_task_definition" {
   family             = "my-ecs-task"
   network_mode       = "awsvpc"
-  execution_role_arn = "arn:aws:iam::532199187081:role/ecsTaskExecutionRole"
+  execution_role_arn = aws_iam_role.ecs_instance_role.arn
   cpu                = 256
   runtime_platform {
     operating_system_family = "LINUX"
@@ -41,7 +41,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   container_definitions = jsonencode([
     {
       name      = "dockergs"
-      image     = "public.ecr.aws/f9n5f1l7/dgs:latest"
+      image     = "public.ecr.aws/docker/library/docker:rc-git"
       cpu       = 256
       memory    = 512
       essential = true
@@ -56,7 +56,6 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   ])
 }
 
-# Define the ECS service that will run the task
 resource "aws_ecs_service" "ecs_service" {
   name            = "my-ecs-service"
   cluster         = aws_ecs_cluster.ecs_cluster.id
