@@ -10,14 +10,14 @@ resource "aws_subnet" "subnet" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = cidrsubnet(var.vpc_cidr, 8, 1)
   map_public_ip_on_launch = true
-  availability_zone       = "us-west-1a"
+  availability_zone       = "us-west-2a"
 }
 
 resource "aws_subnet" "subnet2" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = cidrsubnet(var.vpc_cidr, 8, 2)
   map_public_ip_on_launch = true
-  availability_zone       = "us-west-1b"
+  availability_zone       = "us-west-2b"
 }
 
 resource "aws_internet_gateway" "internet_gateway" {
